@@ -13,12 +13,12 @@ pipeline {
 	stages{
 	        stage('Build'){
 	            steps {
-	                sh 'mvn clean package'
+	                sh 'mvn package'
 	            }
 	            post {
 	                success {
 	                    echo 'Now Archiving...'
-	                    archiveArtifacts artifacts: '**/target/*.war'
+	                    archiveArtifacts artifacts: 'target/vprofile-v1.war'
 	                }
 	            }
 	        }
