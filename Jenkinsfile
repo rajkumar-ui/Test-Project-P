@@ -2,8 +2,8 @@ pipeline {
 	    agent any
 	
 	    parameters {
-	         string(name: 'tomcat_DEV', defaultValue: '172.31.19.4', description: 'Staging Server')
-	         string(name: 'tomcat_UAT', defaultValue: '172.31.18.83', description: 'Production Server')
+	         string(name: 'redhat-dev-tom', defaultValue: '172.31.81.210', description: 'Staging Server')
+	         string(name: 'redhat-qa-tom', defaultValue: '172.31.81.58', description: 'Production Server')
 	    }
 	
 	    triggers {
@@ -25,15 +25,15 @@ pipeline {
 	
 	        stage ('Deployments'){
 	            parallel{
-	                stage ('Deploy to QA'){
+	                stage ('redhat-qa-tom'){
 	                    steps {
-	                        sh "scp -p -r /var/lib/jenkins/workspace/maven project1/target/vprofile-v1.war jenkins@${params.tomcat_DEV}:/usr/local/apache-tomcat-8.5.50/webapps"
+	                        sh "scp -p -r /var/lib/jenkins/workspace/jenkins-pipeline/target/vprofile-v1.war jenkins@${params.redhat-dev-tom}:/usr/local/apache-tomcat-8.5.50/webapps"
 	                    }
 	                }
 	
 	                stage ("Deploy to Production"){
 	                    steps {
-	                        sh "scp -p -r /var/lib/jenkins/workspace/maven project1/target/vprofile-v1.war jenkins@${params.tomcat_UAT}:/usr/local/apache-tomcat-8.5.50/webapps"
+	                        sh "scp -p -r /var/lib/jenkins/workspace/jenkins-pipeline/target/vprofile-v1.war jenkins@${params.redhat-qa-tom}:/usr/local/apache-tomcat-8.5.50/webapps"
 	                    }
 	                }
 	            }
